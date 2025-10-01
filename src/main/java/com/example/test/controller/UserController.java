@@ -28,7 +28,7 @@ public class UserController {
     }
 
     // Метод для обновления пользователя
-    @PostMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id,@RequestBody User user) {
         try {
             User updatedUser = userService.updateUser(id,user); // Предполагается, что createUser выполняет обновление
