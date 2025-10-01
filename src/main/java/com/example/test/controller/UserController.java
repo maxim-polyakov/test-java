@@ -30,7 +30,7 @@ public class UserController {
     // Метод для обновления пользователя
     @PostMapping("/update")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
-        User updatedUser = userService.createUser(user); // Предполагается, что createUser выполняет обновление
+        User updatedUser = userService.updateUser(user); // Предполагается, что createUser выполняет обновление
         return ResponseEntity.ok(updatedUser); // Возвращает обновленного пользователя
     }
 
