@@ -33,8 +33,8 @@ public class UserService {
 		return user;
     }
 	
-	public User updateUser(User user) {
-		userRepo.findById(user.getId()).orElseThrow(() -> new RuntimeException("User with id " + user.getId() + " not found"));
+	public User updateUser(Long id,User user) {
+		userRepo.findById(id).orElseThrow(() -> new RuntimeException("User with id " + id + " not found"));
 		userRepo.save(user);
 		return user;
 	}

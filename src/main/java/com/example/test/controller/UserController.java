@@ -28,10 +28,15 @@ public class UserController {
     }
 
     // Метод для обновления пользователя
-    @PostMapping("/update")
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
-        User updatedUser = userService.updateUser(user); // Предполагается, что createUser выполняет обновление
-        return ResponseEntity.ok(updatedUser); // Возвращает обновленного пользователя
+    @PostMapping("/update/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id,@RequestBody User user) {
+        try {
+            User updatedUser = userService.updateUser(id,user); // Предполагается, что createUser выполняет обновление
+            return ResponseEntity.ok(updatedUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        // Возвращает обновленного пользователя
+        }
     }
 
     // Метод для добавления нового пользователя
@@ -44,7 +49,11 @@ public class UserController {
     // Метод для удаления пользователя
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    try {
         userService.deleteUser(id);
-        return ResponseEntity.noContent().build(); // Возвращает статус 204 No Content при успешном удалении
+        return ResponseEntity.noContent().build();
+    } catch (RuntimeException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
+}
 }
