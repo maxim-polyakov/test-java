@@ -11,10 +11,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Отключаем CSRF защиту:cite[1]:cite[9]
+            // Correct way to disable CSRF
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/api/users/**").permitAll() // Разрешаем доступ без аутентификации к вашим API:cite[2]:cite[5]
-                .anyRequest().authenticated() // Все остальные запросы требуют аутентификации
+                .requestMatchers("/api/users/**").permitAll()
+                .anyRequest().authenticated()
             );
         return http.build();
     }

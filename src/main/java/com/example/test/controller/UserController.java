@@ -35,7 +35,6 @@ public class UserController {
             return ResponseEntity.ok(updatedUser);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
-        // Возвращает обновленного пользователя
         }
     }
 
