@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@RestController // Замена @Controller на @RestController
-@RequestMapping("/api/users") // Опционально: общий префикс пути для API
+@RestController
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
@@ -20,7 +20,7 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUser();
         return ResponseEntity.ok(users);
-}
+    }
     // Метод для получения пользователя по ID и возврата его в формате JSON
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
@@ -49,9 +49,9 @@ public class UserController {
     // Метод для удаления пользователя
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-    try {
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
