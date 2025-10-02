@@ -3,17 +3,17 @@ services:
   app:
     build: .
     ports:
-      - "8080:8080"
+      - "5652:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     volumes:
       - ./src:/app/src
       - ./pom.xml:/app/pom.xml
-    depends_on:
-      - db  # Указываем зависимость от сервиса базы данных:cite[5]
+    networks:
+      - test-jave_net
 
   db:
-    image: postgres:15  # Используем официальный образ PostgreSQL:cite[4]
+    image: postgres:15
     container_name: postgres-db
     restart: unless-stopped
     environment:
@@ -21,9 +21,15 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
     ports:
-      - "5432:5432"  # Пробрасываем порт для подключения с хоста:cite[1]
+      - "5450:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data  # Том для сохранения данных:cite[5]
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - test-jave_net
+
+networks:
+  test-jave_net:
+    driver: bridge
 
 # Определяем том для постоянного хранения данных БД
 volumes:

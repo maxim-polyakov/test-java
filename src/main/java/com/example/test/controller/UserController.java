@@ -2,6 +2,7 @@ package com.example.test.controller;
 
 import com.example.test.entity.User;
 import com.example.test.service.UserService;
+import com.example.test.service.DuplicateCheckResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,8 +52,24 @@ public class UserController {
     try {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
-    } catch (RuntimeException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-}
+    @PostMapping("/check-duplicates")
+    public ResponseEntity<?> checkForDuplicates(@RequestBody int[] numbers) {
+        try {
+            boolean hasDuplicates = userService.hasDuplicates(numbers);
+
+            DuplicateCheckResponse response = new DuplicateCheckResponse(
+                numbers,
+                hasDuplicates,
+                hasDuplicates ? "Массив содержит дубликаты" : "Дубликаты не найдены"
+            );
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Ошибка при проверке дубликатов: " + e.getMessage());
+        }
+    }
 }

@@ -2,6 +2,9 @@ package com.example.test.service;
 
 import java.util.List;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -55,6 +58,23 @@ public class UserService {
         }
         // Сравниваем введенный пароль с хешем из БД
         return passwordEncoder.matches(password, user.getPassword());
+    }
+
+	public boolean hasDuplicates(int[] array) {
+        if (array == null || array.length <= 1) {
+            return false;
+        }
+
+        Set<Integer> seen = new HashSet<>();
+
+        for (int num : array) {
+            if (seen.contains(num)) {
+                return true; // Найден дубликат
+            }
+            seen.add(num);
+        }
+
+        return false; // Дубликатов не найдено
     }
 	
 }
